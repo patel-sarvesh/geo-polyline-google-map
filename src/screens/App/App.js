@@ -3,8 +3,10 @@ import './App.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchGeojson, setMaxElevationRange, setMinElevationRange,setPolylineOpacity } from './action';
-import MapComponent from '../../components/mapComponent';
-import Error from '../../components/Error';
+import MapComponent from '../../components/google-map/mapComponent';
+import Error from '../../components/error/error';
+import Slider from '../../components/slider/slider';
+import DropDown from '../../components/dropdown/dropdown';
 
 class App extends React.Component {
 
@@ -13,12 +15,12 @@ class App extends React.Component {
   };
 
   handleMinRangeChange(event) {
-    const maxRangeElevations = this.props.maxRangeElevations.filter(e => e > event.target.value);
+    const maxRangeElevations = this.props.distinctRangeElevations.filter(e => e > event.target.value);
     this.props.setMinElevationRange({ minElevation: +event.target.value, maxRangeElevations });
   }
 
   handleMaxRangeChange(event) {
-    const minRangeElevations = this.props.minRangeElevations.filter(e => e > event.target.value);
+    const minRangeElevations = this.props.distinctRangeElevations.filter(e => e < event.target.value);
     this.props.setMaxElevationRange({ maxElevation: +event.target.value, minRangeElevations });
   }
 
@@ -44,31 +46,32 @@ class App extends React.Component {
       <div className="container">
       <section className="filters">
         <h4>Elevation Range</h4>
-        <div className="row">
+        <div className="box">
           <label>Min Elevation: </label>
-          <select onChange={this.handleMinRangeChange.bind(this)} value={minElevation || ''}>
-            {minRangeElevations.map(elevation => <option key={elevation} value={elevation}>{elevation}</option>)}
-          </select>
+          <DropDown 
+            onChange={this.handleMinRangeChange.bind(this)}
+            value={minElevation}
+            options={minRangeElevations}
+          />
         </div>
-        <div className="row">
+        <div className="box">
           <label>Max Elevation: </label>
-          <select onChange={this.handleMaxRangeChange.bind(this)} value={maxElevation || ''}>
-            { maxRangeElevations.map(elevation => <option key={elevation} value={elevation}>{elevation}</option>) }
-          </select>
+          <DropDown 
+            onChange={this.handleMaxRangeChange.bind(this)}
+            value={maxElevation}
+            options={maxRangeElevations}
+          />
         </div>
       </section>
 
       <section className="filters">
         <h4>Polyline Opacity</h4>
-        <div className="row">
-          <input 
-            className="slider"
-            type="range" 
-            min="1" max="10" 
-            id="opacity"
-            name="opacity"
-            onChange={this.handlePolylineOpacity.bind(this)} 
-            value={polylineOpacity} 
+        <div className="box">
+          <Slider 
+            onChange={this.handlePolylineOpacity.bind(this)}
+            min="1"
+            max="10"
+            value={polylineOpacity}
           />
         </div>
       </section>
@@ -95,6 +98,7 @@ const mapStateToProps = (state) => {
     minRangeElevations, 
     polylineOpacity, 
     geojson, 
+    distinctRangeElevations,
     maxRangeElevations
   } = state.appReducer;
   
@@ -105,6 +109,7 @@ const mapStateToProps = (state) => {
     minRangeElevations, 
     polylineOpacity, 
     geojson, 
+    distinctRangeElevations,
     maxRangeElevations 
   };
 };
@@ -123,6 +128,7 @@ App.defaultProps = {
   maxElevation: null,
   minRangeElevations: [],
   maxRangeElevations: [],
+  distinctRangeElevations: [],
   polylineOpacity: 10
 };
 

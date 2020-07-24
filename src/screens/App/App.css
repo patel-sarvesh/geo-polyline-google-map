@@ -10,6 +10,8 @@
     background-color: rgb(255, 255, 255);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 h4 {
@@ -17,26 +19,11 @@ h4 {
    text-decoration: underline;
 }
 
-.row {
+.box {
     display: flex;
-    margin: 10px;
     justify-content: space-between;
 }
 
-.row label {
+.box label {
     line-height: 30px;
-}
-
-.filters select {
-    height: 30px;
-    width: 130px;
-}
-
-.filters select option {
-    font-size: 16px;
-    padding: 5px;
-}
-
-.slider {
-    margin-bottom: 10px;
 }

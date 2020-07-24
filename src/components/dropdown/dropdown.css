@@ -1,0 +1,10 @@
+select {
+    height: 30px;
+    width: 130px;
+    cursor: pointer;
+}
+
+select option {
+    font-size: 16px;
+    padding: 5px;
+}

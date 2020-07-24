@@ -7,6 +7,7 @@ const initialState = {
     maxElevation: null,
     minRangeElevations: [],
     maxRangeElevations: [],
+    distinctRangeElevations: [],
     polylineOpacity: 10
 };
 
@@ -21,6 +22,7 @@ export default function appReducer(state = initialState, action) {
                 geojson: action.payload, 
                 minRangeElevations: elevationsRange, 
                 maxRangeElevations: elevationsRange,
+                distinctRangeElevations: elevationsRange,
                 maxElevation: elevationsRange[elevationsRange.length - 1],
                 minElevation: elevationsRange[0],
                 errMessage: ''
